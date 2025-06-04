@@ -8,7 +8,7 @@
       <name>Ignacio Valdivieso</name>
       <email>ignacio.valdivieso@example.cl</email>
     </author>
-    <summary>Estilo basado en normas de citación autor-año en español: un autor, dos autores unidos con “y”, tres o más como “et al.”, y orden cronológico en citas múltiples; bibliografía alfabética.</summary>
+    <summary>Estilo autor-año en español: un autor, dos autores con “y”, tres o más como “et al.”, citas múltiples ordenadas cronológicamente, y bibliografía alfabética.</summary>
     <updated>2025-06-04T00:00:00+00:00</updated>
     <rights>CC-BY-SA 4.0</rights>
   </info>
@@ -18,11 +18,6 @@
   ----------------------------------- -->
   <macro name="author">
     <names variable="author" and="text" delimiter=", " initialize-with="." form="long" initialize-name-with-lenient="true">
-      <!-- 
-        - Cuando haya 1 autor: Apellido, Iniciales.
-        - Cuando haya 2 autores: Apellido, Iniciales y Apellido, Iniciales.
-        - Cuando haya 3 o más: Apellido, Iniciales et al.
-      -->
       <name>
         <name-part name="family"/>
         <name-part name="given" initialize-with="." initialize-with-hyphen="true" delimiter=" "/>
@@ -68,19 +63,11 @@
   ----------------------------- -->
   <citation>
     <layout prefix="" suffix="" delimiter="; ">
-      <!-- 
-        Un autor:    Han (2015) / (Han, 2015).
-        Dos autores: Lee y Baek (2009) / (Lee y Baek, 2009).
-        Tres o más:  Wu et al. (2013) / (Wu et al., 2013).
-        Múltiples citas al final: (Knee, 2007; Macnish et al., 2009; Reid y Jiang, 2012).
-        Misma autoría año:       (Kader et al., 2014a; Kader et al., 2014b).
-      -->
       <group delimiter=" ">
         <names variable="author" and="text" delimiter=", " et-al-min="3" et-al-use-first="1"/>
         <group prefix="(" suffix=")" delimiter="">
           <date variable="issued">
             <date-part name="year"/>
-            <!-- Las letras a, b, c se generarán automáticamente si hay varias publicaciones con el mismo autor y año -->
           </date>
         </group>
       </group>
@@ -99,26 +86,26 @@
       <group delimiter=". ">
         <!-- 1) AUTORES -->
         <text macro="author"/>
-        <!-- 2) AÑO (añade sufijo a/b si se repite) -->
+        <!-- 2) AÑO -->
         <date variable="issued">
           <date-part name="year"/>
         </date>
         <!-- 3) TÍTULO -->
         <text macro="title"/>
-        <!-- 4) Dependiendo del tipo bibliográfico -->
+        <!-- 4) DEPENDIENDO DEL TIPO -->
         <choose>
-          <!-- 4A) Artículos de revista -->
+          <!-- A) Artículos de revista -->
           <if variable="container-title">
             <text macro="container"/>
           </if>
-          <!-- 4B) Libros -->
+          <!-- B) Libros -->
           <else-if type="book">
             <group delimiter=". ">
               <text variable="edition" prefix="" suffix=" ed."/>
               <text macro="publisher-info"/>
             </group>
           </else-if>
-          <!-- 4C) Capítulos de libro -->
+          <!-- C) Capítulos de libro -->
           <else-if type="chapter paper-conference article-book">
             <group delimiter=". ">
               <text variable="page" prefix="p. "/>
@@ -128,7 +115,7 @@
               <text macro="publisher-info"/>
             </group>
           </else-if>
-          <!-- 4D) Actas de congreso (proceedings) -->
+          <!-- D) Actas de congreso -->
           <else-if type="paper-conference">
             <group delimiter=". ">
               <text variable="page" prefix="Abstract "/>
@@ -138,7 +125,7 @@
               <text variable="event-date" prefix="(" suffix=")"/>
             </group>
           </else-if>
-          <!-- 4E) Tesis -->
+          <!-- E) Tesis -->
           <else-if type="thesis">
             <group delimiter=". ">
               <text variable="number-of-pages" suffix=" p."/>
@@ -149,7 +136,7 @@
               </group>
             </group>
           </else-if>
-          <!-- 4F) Fuentes electrónicas: si hay URL -->
+          <!-- F) Fuentes electrónicas -->
           <else-if variable="URL">
             <group delimiter=". ">
               <text variable="URL" prefix="Disponible en "/>
