@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <style xmlns="http://purl.org/net/xbiblio/csl" version="1.0">
-  <!-- 
-    Manual de estilo para citaciones en texto y "Literatura citada" según las pautas indicadas.
-    Nombre: Manual de Estilo Agronomía Universidad de Chile (español)
-  -->
   <info>
     <title>Manual de Estilo Agronomía (Español)</title>
     <id>https://ejemplo.org/styles/manual-estilo-agronomy</id>
@@ -12,38 +8,26 @@
       <name>Ignacio Valdivieso</name>
       <email>ignacio.valdivieso@example.cl</email>
     </author>
-    <category citation-format="author-date"/>
-    <category field="agriculture"/>
     <summary>Estilo basado en normas de citación autor-año en español: un autor, dos autores unidos con “y”, tres o más como “et al.”, y orden cronológico en citas múltiples; bibliografía alfabética.</summary>
     <updated>2025-06-04T00:00:00+00:00</updated>
     <rights>CC-BY-SA 4.0</rights>
-    <locale xml:lang="es">
-      <!-- Ajuste de conectores y formatos en español -->
-      <terms>
-        <term name="and">y</term>
-        <term name="et-al">et al.</term>
-      </terms>
-      <date form="numeric">
-        <date-part name="year" suffix="" prefix=""/>
-      </date>
-    </locale>
   </info>
 
   <!-- -----------------------------------
          MACROS (fragmentos reutilizables)
   ----------------------------------- -->
   <macro name="author">
-    <names variable="author">
+    <names variable="author" and="text" delimiter=", " initialize-with="." form="long" initialize-name-with-lenient="true">
       <!-- 
         - Cuando haya 1 autor: Apellido, Iniciales.
         - Cuando haya 2 autores: Apellido, Iniciales y Apellido, Iniciales.
         - Cuando haya 3 o más: Apellido, Iniciales et al.
       -->
-      <name and="text" delimiter=", " initialize-with="." form="long" initialize-name-with-lenient="true">
+      <name>
         <name-part name="family"/>
         <name-part name="given" initialize-with="." initialize-with-hyphen="true" delimiter=" "/>
       </name>
-      <et-al term="et-al" font-style="normal"/>
+      <et-al term="et-al"/>
     </names>
   </macro>
 
@@ -84,19 +68,19 @@
   ----------------------------- -->
   <citation>
     <layout prefix="" suffix="" delimiter="; ">
-      <!-- Formato en texto: Un autor: Han (2015) / al final: (Han, 2015).
-           Dos autores: Lee y Baek (2009) / al final: (Lee y Baek, 2009).
-           Tres o más: Wu et al. (2013) / al final: (Wu et al., 2013).
-           Múltiples citas: (Knee, 2007; Macnish et al., 2009; Reid y Jiang, 2012).
-           Mismos autores / año: (Kader et al., 2014a; Kader et al., 2014b).
+      <!-- 
+        Un autor:    Han (2015) / (Han, 2015).
+        Dos autores: Lee y Baek (2009) / (Lee y Baek, 2009).
+        Tres o más:  Wu et al. (2013) / (Wu et al., 2013).
+        Múltiples citas al final: (Knee, 2007; Macnish et al., 2009; Reid y Jiang, 2012).
+        Misma autoría año:       (Kader et al., 2014a; Kader et al., 2014b).
       -->
       <group delimiter=" ">
         <names variable="author" and="text" delimiter=", " et-al-min="3" et-al-use-first="1"/>
         <group prefix="(" suffix=")" delimiter="">
           <date variable="issued">
             <date-part name="year"/>
-            <date-part name="year" suffix=""/>
-            <!-- El sufijo de año (letra a, b, c...) se maneja automáticamente -->
+            <!-- Las letras a, b, c se generarán automáticamente si hay varias publicaciones con el mismo autor y año -->
           </date>
         </group>
       </group>
@@ -108,36 +92,28 @@
   </citation>
 
   <!-- -----------------------------
-         FORMATO DE BIBLIOGRAFÍA ("LITERATURA CITADA")
+         BIBLIOGRAFÍA (“LITERATURA CITADA”)
   ----------------------------- -->
   <bibliography>
     <layout hanging-indent="true" line-spacing="1.2" delimiter=". ">
-      <!-- 
-        Cada ítem: 
-        - Lista de autores: Apellido, Iniciales. (.). [et al. si ≥3]
-        - Año.
-        - Título del artículo / capítulo / libro / tesis / URL, según tipo.
-      -->
       <group delimiter=". ">
         <!-- 1) AUTORES -->
         <text macro="author"/>
-        <!-- 2) AÑO (añade sufijo a/b si es necesario) -->
+        <!-- 2) AÑO (añade sufijo a/b si se repite) -->
         <date variable="issued">
           <date-part name="year"/>
-          <date-part name="year" suffix=""/>
         </date>
         <!-- 3) TÍTULO -->
         <text macro="title"/>
-        <!-- 4) Dependiendo del tipo bibliográfico, se completan los siguientes campos -->
+        <!-- 4) Dependiendo del tipo bibliográfico -->
         <choose>
           <!-- 4A) Artículos de revista -->
           <if variable="container-title">
             <text macro="container"/>
           </if>
-          <!-- 4B) Libros (no tienen container-title) -->
+          <!-- 4B) Libros -->
           <else-if type="book">
             <group delimiter=". ">
-              <!-- Si hay número de edición -->
               <text variable="edition" prefix="" suffix=" ed."/>
               <text macro="publisher-info"/>
             </group>
@@ -145,23 +121,17 @@
           <!-- 4C) Capítulos de libro -->
           <else-if type="chapter paper-conference article-book">
             <group delimiter=". ">
-              <group delimiter="">
-                <text variable="page" prefix="p. "/>
-              </group>
+              <text variable="page" prefix="p. "/>
               <text variable="editor" prefix="In: "/>
               <text variable="collection-title"/>
-              <group delimiter="">
-                <text variable="edition" prefix=", " suffix=" ed."/>
-              </group>
+              <text variable="edition" prefix=", " suffix=" ed."/>
               <text macro="publisher-info"/>
             </group>
           </else-if>
           <!-- 4D) Actas de congreso (proceedings) -->
           <else-if type="paper-conference">
             <group delimiter=". ">
-              <group delimiter="">
-                <text variable="page" prefix="Abstract "/>
-              </group>
+              <text variable="page" prefix="Abstract "/>
               <text variable="event"/>
               <text variable="publisher"/>
               <text variable="publisher-place"/>
@@ -189,7 +159,6 @@
         </choose>
       </group>
     </layout>
-    <!-- Orden alfabético por autor y, si mismo autor/año, cronológico -->
     <sort>
       <key variable="author"/>
       <key variable="issued"/>
