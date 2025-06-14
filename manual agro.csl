@@ -2,15 +2,15 @@
 <style xmlns="http://purl.org/net/xbiblio/csl" version="1.0" class="in-text" default-locale="es-CL">
   <info>
     <title>Manual de Estilo Proyecto de Tesis o AFE (Corregido)</title>
-    <id>http://uchile.cl/anexo2-final-validado-corregido-v2</id>
-    <link href="http://uchile.cl/anexo2-final-validado-corregido-v2" rel="self"/>
+    <id>http://uchile.cl/anexo2-final-validado-corregido-v3</id>
+    <link href="http://uchile.cl/anexo2-final-validado-corregido-v3" rel="self"/>
     <author>
       <name>Ignacio Valdivieso</name>
     </author>
     <category citation-format="author-date"/>
     <category field="biology"/>
-    <updated>2025-06-13T20:36:46-04:00</updated>
-    <summary>Generado según el documento original y corregido según ejemplos específicos. Corregido error de validación en el atributo 'allow-parts'.</summary>
+    <updated>2025-06-13T20:41:43-04:00</updated>
+    <summary>Versión final corregida según la especificación CSL 1.0.2. Se reemplazó el atributo erróneo 'allow-parts' por el correcto 'date-parts'.</summary>
   </info>
 
   <locale xml:lang="es-CL">
@@ -74,7 +74,7 @@
       </group>
       <group prefix=" (" suffix=")">
         <text term="retrieved"/>
-        <date variable="accessed" prefix=" " allow-parts="year-month">
+        <date variable="accessed" prefix=" " date-parts="year-month">
             <date-part name="month" form="long" text-case="lowercase" suffix=" de "/>
             <date-part name="year"/>
         </date>
